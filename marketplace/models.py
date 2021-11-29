@@ -6,8 +6,7 @@ from django.db import models
 class Collection(models.Model):
     collection_name = models.CharField("Colección", max_length=200)
     
-    token = models.ManyToManyField('NFT', verbose_name='NFT')
-    
+    nfts = models.ManyToManyField('NFT', verbose_name='NFT',related_name='nfts')
     
     def __str__(self):
         return self.collection_name
@@ -23,20 +22,21 @@ class NFT(models.Model):
     nft_standard = models.CharField("Token Standard", max_length=10)
     nft_blockchain = models.CharField("Blockchain", max_length=100)
     
-    collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True, verbose_name='Colección')
-    creator = models.ManyToManyField('Creator', verbose_name='Creador')
+    collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True,blank=True, verbose_name='Colección')
+    creators = models.ManyToManyField('Creator', verbose_name='Creador', related_name='creators')
         
     def __str__(self):
-        return f'{self.nft_name} {self.nft_id}'
+        return self.nft_contract_addr
     class Meta:
         verbose_name = 'NFT'
+        ordering = ['nft_contract_addr']
 
 #Creator Class
 class Creator(models.Model):
-    author_nickname = models.CharField("Nickname", max_length=200)
+    creator_nickname = models.CharField("Nickname", max_length=200)
     
     def __str__(self):
-        return self.author_nickname
+        return self.creator_nickname
     class Meta:
         verbose_name = 'Creador'
         verbose_name_plural = 'Creadores'
