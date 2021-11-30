@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 from .models import Collection, NFT, Creator
 
@@ -14,6 +15,11 @@ def index(request):
                             'Visitas:': visitas  
                         },
     )
+    
+#Coming Soon View
+def comingSoon(request):
+    
+    return render(request, 'comingsoon.html')
     
 
 
