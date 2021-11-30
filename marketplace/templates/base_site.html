@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}<title>NFT Site</title>{% endblock %}
+</head>
+<body>
+    {% block sidebar %}
+        <ul class="sidebar-nav">
+            <li><a href="{% url 'index' %}">Marketplace</a></li>
+            <li><a href="">All Collections</a></li>
+            <li><a href="">All NFTs</a></li>
+          </ul>
+    {% endblock %}
+    {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+</body>
+</html>

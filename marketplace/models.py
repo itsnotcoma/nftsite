@@ -6,7 +6,12 @@ from django.db import models
 class Collection(models.Model):
     collection_name = models.CharField("Colección", max_length=200)
     
-    nfts = models.ManyToManyField('NFT', verbose_name='NFT',related_name='nfts')
+    nfts = models.ManyToManyField('NFT', verbose_name='NFT', related_name='nfts')
+    
+    def get_nfts(self):
+        return "\n".join([n.nft_contract_addr for n in self.nfts.all()])
+    
+    get_nfts.short_description = 'NFTs'
     
     def __str__(self):
         return self.collection_name
@@ -17,14 +22,16 @@ class Collection(models.Model):
 #NFT Class
 class NFT(models.Model):
     nft_contract_addr = models.CharField("Contract Address", max_length=256)
-    nft_name = models.CharField("Token Name", max_length=200)
-    nft_id = models.CharField("Token Id", max_length=5, blank=True)
+    nft_name = models.CharField("Token Name", max_length=200, null=True, blank=True)
+    nft_id = models.CharField("Token Id", max_length=5)
     nft_standard = models.CharField("Token Standard", max_length=10)
     nft_blockchain = models.CharField("Blockchain", max_length=100)
     
     collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True,blank=True, verbose_name='Colección')
-    creators = models.ManyToManyField('Creator', verbose_name='Creador', related_name='creators')
-        
+    creator = models.ForeignKey('Creator', on_delete=models.CASCADE, null=True, verbose_name='Creador', related_name='creators')
+    
+    def get_creators(self):
+        return ", ".join([c.creator_nickname for c in self.creator.all()])
     def __str__(self):
         return self.nft_contract_addr
     class Meta:
