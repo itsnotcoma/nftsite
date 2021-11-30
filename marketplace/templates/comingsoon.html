@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
+<head>
+<!-- Website Template designed by www.downloadwebsitetemplates.co.uk -->
+<meta charset="UTF-8">
+<title>NFT Site - Coming Soon</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72.png">
+<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57.png">
+<link rel="shortcut icon" href="images/ico/favicon.png">
+<!--[if IE]><![endif]-->
+<link rel="stylesheet" href="css/style.css">
+<script src="js/jquery.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/owlcarousel.js"></script>
+<script src="js/uikit.scrollspy.js"></script>
+<script src="js/scripts.js"></script>
+<!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<style>
+    /* ==================================================
+   CSS Imports
+================================================== */
+
+@import url("reset.css");
+@import url("owlcarousel.css");
+@import url("uikit.scrollspy.css");
+
+/* ==================================================
+   Icon Fonts
+================================================== */
+
+@import url("fonts/fontawesome/font-awesome.css");
+
+/* ==================================================
+   Google Fonts
+================================================== */
+
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,400italic,600,600italic,700,700italic,900,900italic");
+
+/* ==================================================
+   Global Styles
+================================================== */
+
+*
+{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+    margin: 0;
+}
+
+html
+{
+	height: 100%;
+	overflow: auto;
+	
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+body
+{
+	font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	line-height: 32px;
+	font-weight: 300;
+	color: #999;
+	background: #FFF;
+	
+	text-rendering: optimizeLegibility;
+	vertical-align: baseline;
+}
+
+::selection
+{
+	background: #149077;
+	color: #FFF;
+}
+
+::-moz-selection
+{
+	background: #149077;
+	color: #FFF;
+}
+
+a
+{
+	color: #16A085;
+	text-decoration: none;
+}
+
+	a:hover
+	{
+		color: #444;
+	}
+
+/* ==================================================
+   Default Typography
+================================================== */
+
+p
+{
+	margin: 0 0 20px 0;
+}
+
+strong
+{
+	font-weight: 600;
+}
+
+em
+{
+	font-style: italic;
+}
+
+h1, h2, h3
+{
+	font-size: 60px;
+	line-height: 60px;
+	margin: 0 0 20px 0;
+	letter-spacing: -1px;
+	font-weight: 300;
+	text-transform: uppercase;
+}
+
+	h2
+	{
+		font-size: 38px;
+		line-height: 38px;
+	}
+		
+	h3
+	{
+		font-size: 32px;
+		line-height: 32px;
+	}
+
+/* ==================================================
+   Background Colours
+================================================== */
+
+.colour1
+{
+	background: #16A085;
+}
+
+.colour2
+{
+	background: #1ABC9C;
+}
+
+.colour3
+{
+	background: #EEE;
+}
+
+
+/* ==================================================
+   Separator Arrows
+================================================== */
+
+.arrow-separator
+{
+	position: relative;
+}
+
+	.arrow-separator:after
+	{
+		top: 100%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border-width: 12px;
+		left: 50%;
+		margin-left: -12px;
+		z-index: 11;
+	}
+	
+		.arrow-white:after
+		{
+			border-color: #FFF rgba(255,255,255,0) rgba(255,255,255,0) rgba(255,255,255,0); /** Using RGB to remove dark line in Firefox **/
+		}
+		
+		.arrow-theme:after
+		{
+			border-color: #16A085 rgba(22,160,133,0) rgba(22,160,133,0) rgba(22,160,133,0);
+		}
+		
+		.arrow-themelight:after
+		{
+			border-color: #1ABC9C rgba(26,188,156,0) rgba(26,188,156,0) rgba(26,188,156,0);
+		}
+
+		.arrow-grey:after
+		{
+			border-color: #EEE rgba(238,238,238,0) rgba(238,238,238,0) rgba(238,238,238,0);
+		}
+
+/* ==================================================
+   General Layout Styles
+================================================== */
+
+.fullwidth
+{
+	width: 100%;
+	padding: 60px 30px;
+	min-width: 280px;
+}
+
+	.fullwidth .bodycontainer
+	{
+		margin: 0 auto;
+		width: 100%;
+		max-width: 1000px;
+		text-align: center;
+	}
+	
+#topcontainer
+{
+
+}
+
+	#topcontainer h1
+	{
+		padding: 6px 0 10px 0;
+		margin-bottom: 0;
+		letter-spacing: -1.5px;
+		color: #444;
+		font-weight: 400;
+	}
+	
+		#topcontainer h1 span
+		{
+			font-size: 70px;
+			line-height: 70px;
+			letter-spacing: -1.4px;
+			font-weight: 300;
+		}
+
+	#topcontainer p
+	{
+		margin-bottom: 0;
+		color: #999;
+	}
+
+	#topcontainer p span
+	{
+		font-size: 90px;
+		line-height: 90px;
+		color: #1abc9c;
+	}
+	
+#countdown
+{
+	color: #FFF;
+    height: 250px;
+}
+
+	#countdown #countdowncont
+	{
+		width: 100%;
+		max-width: 700px;
+		margin: 0 auto;
+	}
+
+		#countdown #countdowncont ul#countscript li
+		{
+			float: left;
+			width: 25%;
+			padding: 30px 0;
+			margin: 0;
+			list-style-type: none;
+		}
+
+			#countdown #countdowncont ul#countscript li span
+			{
+				font-size: 80px;
+				line-height: 80px;
+				font-weight: 300;
+				color: #FFF;
+			}
+
+			#countdown #countdowncont ul#countscript li p
+			{
+				color: rgba(255, 255, 255, 0.6);
+				font-weight: 300;
+				text-transform: uppercase;
+				font-size: 18px;
+				line-height: 18px;
+				margin: 0;
+			}
+		
+
+</style>
+<body id="backtotop">
+
+<div class="fullwidth clearfix">
+	<div id="topcontainer" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+		
+		<p><span class="fa fa-signal"></span></p>
+		<h1><span>Progress</span><br />is coming soon</h1>
+		<p>It's almost ready ... honest</p>
+		
+	</div>
+</div>
+
+<div class="arrow-separator arrow-white"></div>
+
+<div class="fullwidth colour1 clearfix">
+	<div id="countdown" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+
+		<div id="countdowncont" class="clearfix">
+			<ul id="countscript">
+				<li>
+					<span class="days">00</span>
+					<p>Days</p>
+				</li>
+				<li>
+					<span class="hours">00</span>
+					<p>Hours</p>
+				</li>
+				<li class="clearbox">
+					<span class="minutes">00</span>
+					<p>Minutes</p>
+				</li>
+				<li>
+					<span class="seconds">00</span>
+					<p>Seconds</p>
+				</li>
+			</ul>
+		</div>
+	
+	</div>
+</div>
+
+<div class="arrow-separator arrow-theme"></div>
+
+<!--<div class="arrow-separator arrow-themelight"></div>-->
+
+<!--<div class="arrow-separator arrow-grey"></div>-->
+
+<div class="fullwidth clearfix">
+	<div id="footercont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+		<p>Free Website Template by <a title="website template" href="https://www.downloadwebsitetemplates.co.uk" rel="external">Website Template</a></p>
+	</div>
+</div>
+</body>
+</html>
