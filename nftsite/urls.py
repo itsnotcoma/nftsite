@@ -20,14 +20,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 
-from marketplace.views import index
-
-#from nftsite.settings import STATIC_URL
+from nftsite.settings import STATIC_URL
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('marketplace/', include('marketplace.urls')),
-    path('', index, name='index'),
+    path('', RedirectView.as_view(url='marketplace/')),
 ]
-
 #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
