@@ -5,11 +5,15 @@
 </head>
 <body>
     {% block sidebar %}
-        <ul class="sidebar-nav">
-            <li><a href="{% url 'index' %}">Marketplace</a></li>
-            <li><a href="">All Collections</a></li>
-            <li><a href="">All NFTs</a></li>
-          </ul>
+    <span><a href="{% url 'index' %}"><img src="" alt="Logo"></a></span>
+    <form action="{% url 'search' %}" method="get">
+        {% csrf_token %}
+        <input type="text" name="q" placeholder="Search"/>
+    </form>
+    <ul class="sidebar-nav">
+        <li><a href="{% url 'index' %}">Marketplace</a></li>
+    </ul>
+    <hr>
     {% endblock %}
     {% block content %}<!-- default content text (typically empty) -->{% endblock %}
 </body>

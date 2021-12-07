@@ -1,0 +1,19 @@
+{% extends "base_site.html" %}
+{% block content %}
+    {% if not nft.nft_name %}
+        <h1> #{{nft.nft_id}} </h1>
+    {% else %}
+        <h1>{{nft.nft_name}} #{{nft.nft_id}} </h1>
+    {% endif %}
+
+    <ul>
+        <li> Contract Address: {{nft.nft_contract_addr}}</li>
+        <li> Token Standard: {{nft.nft_standard}} ({{nft.nft_blockchain}})</li>
+        <li>Collection: {{nft.collection_name}}</li>
+        {% for nft in nft.creators.all %}
+        <ul>
+            <li>Creator: {{nft.creator_nickname}}</li>
+        </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}

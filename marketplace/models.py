@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -9,9 +10,12 @@ class Collection(models.Model):
     nfts = models.ManyToManyField('NFT', verbose_name='NFT', related_name='nfts')
     
     def get_nfts(self):
-        return "\n".join([n.nft_contract_addr for n in self.nfts.all()])
+        return ", ".join([n.nft_contract_addr for n in self.nfts.all()])
     
     get_nfts.short_description = 'NFTs'
+    
+    def get_url(self):
+        return reverse("collection", kwargs={"collection_pk": self.collection_name})
     
     def __str__(self):
         return self.collection_name
@@ -28,12 +32,17 @@ class NFT(models.Model):
     nft_blockchain = models.CharField("Blockchain", max_length=100)
     
     collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True,blank=True, verbose_name='Colección')
-    creator = models.ForeignKey('Creator', on_delete=models.CASCADE, null=True, verbose_name='Creador', related_name='creators')
+    creators = models.ManyToManyField('Creator', related_name='creators')
     
     def get_creators(self):
-        return ", ".join([c.creator_nickname for c in self.creator.all()])
+        return ", ".join([c.creator_nickname for c in self.creators.all()])
+    
+    def get_url(self):
+        return reverse("nft", kwargs={"collection_pk": self.collection_name, "nft_pk":self.nft_id})
+    
     def __str__(self):
         return self.nft_contract_addr
+    
     class Meta:
         verbose_name = 'NFT'
         ordering = ['nft_contract_addr']

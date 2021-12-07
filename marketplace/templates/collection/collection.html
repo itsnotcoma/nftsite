@@ -1,0 +1,16 @@
+{% extends "base_site.html" %}
+{% block content %}
+    <h1>{{collection.collection_name}}</h1>
+    <ul>
+        {% for collection in collection.nfts.all %}
+            {% if not collection.nft_name %}
+                <li><a href="{{collection.get_url}}">#{{collection.nft_id}}</a></li>
+            {% else %}
+                <li><a href="{{collection.get_url}}">{{ collection.nft_name }} #{{collection.nft_id}}</a></li>
+            {% endif %}
+            <li>Blockchain: {{ collection.nft_blockchain }}</li>
+            <br>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
