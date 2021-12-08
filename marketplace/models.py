@@ -14,6 +14,9 @@ class Collection(models.Model):
     
     get_nfts.short_description = 'NFTs'
     
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
     def get_url(self):
         return reverse("collection", kwargs={"collection_pk": self.collection_name})
     
@@ -22,6 +25,7 @@ class Collection(models.Model):
     class Meta:
         verbose_name = 'Colección'
         verbose_name_plural = 'Colecciones'
+        ordering = ['-updated', '-created']
 
 #NFT Class
 class NFT(models.Model):
@@ -34,6 +38,9 @@ class NFT(models.Model):
     collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True,blank=True, verbose_name='Colección')
     creators = models.ManyToManyField('Creator', related_name='creators')
     
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
     def get_creators(self):
         return ", ".join([c.creator_nickname for c in self.creators.all()])
     
@@ -45,7 +52,7 @@ class NFT(models.Model):
     
     class Meta:
         verbose_name = 'NFT'
-        ordering = ['nft_contract_addr']
+        ordering = ['-updated', '-created']
 
 #Creator Class
 class Creator(models.Model):

@@ -15,5 +15,10 @@
             <li>Creator: {{nft.creator_nickname}}</li>
         </ul>
         {% endfor %}
+
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'update-nft' nft.id %}">Edit</a></li>
+            <li><a href="{% url 'delete-nft' nft.id %}">Delete</a></li>
+        {% endif %}
     </ul>
 {% endblock %}

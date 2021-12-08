@@ -1,9 +1,15 @@
+from django.core.checks import messages
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.db.models import Q
-from .forms import NftForm, CollectionForm, Creator
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 
+from .forms import NftForm, CollectionForm, CreatorForm, SingupForm
 from .models import Collection, NFT, Creator
 
 # Create your views here.
@@ -22,7 +28,7 @@ def index(request):
     # collection
 def collection(request, collection_pk):
     collection = Collection.objects.get(collection_name=collection_pk)
-    nfts = Collection.objects.all()
+    nfts = collection.nfts.all()
     context = {'collection': collection, 'nft': nfts}
     return render(request, 'collection/collection.html', context)
     
@@ -33,9 +39,11 @@ def nft(request, nft_pk, collection_pk):
     context = {'nft': nft, 'collection': collection}
     return render(request, 'nft/nft.html', context)
 
-        #añadir nft
+#Add Methods
+@login_required(login_url='login')
 def addNft(request):
     form = NftForm()
+    
     if request.method == 'POST':
        form = NftForm(request.POST)
        if form.is_valid():
@@ -43,12 +51,43 @@ def addNft(request):
            return redirect('index')
         
     context = {'form': form}
-    return render(request, 'nft/nft_form.html', context)
+    return render(request, 'forms/add_form.html', context)
 
-        #actualizar nft
+@login_required(login_url='login')
+def addCollection(request):
+    form = CollectionForm()
+    
+    if request.method == 'POST':
+       form = CollectionForm(request.POST)
+       if form.is_valid():
+           form.save()
+           return redirect('index')
+        
+    context = {'form': form}
+    return render(request, 'forms/add_form.html', context)
+
+@login_required(login_url='login')
+def addCreator(request):
+    form = CreatorForm()
+    
+    if request.method == 'POST':
+       form = CreatorForm(request.POST)
+       if form.is_valid():
+           form.save()
+           return redirect('index')
+        
+    context = {'form': form}
+    return render(request, 'forms/add_form.html', context)
+
+#Update Methods
+@login_required(login_url='login')
 def updateNft(request, pk):
     nft = NFT.objects.get(id=pk)
     form = NftForm(instance=nft)
+    
+    # if request.user != nft.user:
+    #    return HttpResponse('You do not have permission')
+    
     if request.method == 'POST':
         form = NftForm(request.POST, instance=nft)
         if form.is_valid():
@@ -56,15 +95,78 @@ def updateNft(request, pk):
            return redirect('index')
     
     context = {'form': form}
-    return render(request, 'nft/nft_form.html', context)
+    return render(request, 'forms/update_form.html', context)
 
-       #eliminiar nft
+@login_required(login_url='login')
+def updateCollection(request, pk):
+    collection = Collection.objects.get(id=pk)
+    form = CollectionForm(instance=collection)
+    
+    # if request.user != collection.user:
+    #    return HttpResponse('You do not have permission')
+    
+    if request.method == 'POST':
+        form = CollectionForm(request.POST, instance=collection)
+        if form.is_valid():
+           form.save()
+           return redirect('index')
+    
+    context = {'form': form}
+    return render(request, 'forms/update_form.html', context)
+
+@login_required(login_url='login')
+def updateCreator(request, pk):
+    creator = Creator.objects.get(id=pk)
+    form = CreatorForm(instance=creator)
+    
+    # if request.user != creator.user:
+    #    return HttpResponse('You do not have permission')
+    
+    if request.method == 'POST':
+        form = CreatorForm(request.POST, instance=creator)
+        if form.is_valid():
+           form.save()
+           return redirect('index')
+    
+    context = {'form': form}
+    return render(request, 'forms/update_form.html', context)
+
+#Delete Methods
+@login_required(login_url='login')
 def deleteNft(request, pk):
     nft = NFT.objects.get(id=pk)
+    
+    # if request.user != nft.user:
+    #    return HttpResponse('You do not have permission')
+    
     if request.method == 'POST':
        nft.delete()
        return redirect('index')
     return render(request, 'forms/delete.html', {'obj':nft})
+
+@login_required(login_url='login')
+def deleteCollection(request, pk):
+    collection = Collection.objects.get(id=pk)
+    
+    # if request.user != collection.user:
+    #    return HttpResponse('You do not have permission')
+    
+    if request.method == 'POST':
+       collection.delete()
+       return redirect('index')
+    return render(request, 'forms/delete.html', {'obj':collection})
+
+@login_required(login_url='login')
+def deleteCreator(request, pk):
+    creator = Creator.objects.get(id=pk)
+    
+    # if request.user != creator.user:
+    #    return HttpResponse('You do not have permission')
+    
+    if request.method == 'POST':
+       creator.delete()
+       return redirect('index')
+    return render(request, 'forms/delete.html', {'obj':creator})
 
 
 # Search
@@ -86,10 +188,61 @@ def search(request):
                'creator_filter':creator_filter,
                'q':q}
     return render(request, 'search.html', context)   
- 
+
+# Login Page
+def loginPage(request):
+    page = 'login'
+    
+    if request.user.is_authenticated:
+        return redirect('index')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        passwd = request.POST.get('password')
+        
+        try:
+            user= User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exist')
+        
+        user = authenticate(request, username=username, password=passwd)
+        
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successfully.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Username OR password does not exist')
+
+        
+    context = {'page':page}
+    return render(request, 'login_singup.html', context)
+
+# Logout
+def logoutUser(request):
+    messages.success(request, 'Logout successfully.')
+    logout(request)
+    return redirect('index')
+
+def singupPage(request):
+    form = SingupForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, 'Some error occurred during registration.')
+    
+    context = {'form':form}
+    return render(request, 'login_singup.html', context)
+    
 #Coming Soon View
 def comingSoon(request):
-    
     return render(request, 'comingsoon.html')
     
 

@@ -1,0 +1,73 @@
+{% extends "base_site.html" %}
+{% block content %}
+<div class="separator"></div>
+<div class="arrow-separator arrow-white"></div>
+<div class="body-singin">
+  {% if page == 'login' %}
+    <main class="form-signin">
+        <form action="" method="post">
+          {% csrf_token %}
+          <center>
+            <img class="mb-4" src="" alt="logo" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please Login</h1>
+          </center>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username">
+            <label for="floatingInput">Username</label>
+          </div>
+
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> Remember me
+            </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit" value="Login">Login</button>
+        </form>
+
+        <center>
+          <small>Haven't signed up yet? <a href="{% url 'singup' %}">Login here</a></small>
+          <!--<p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>-->
+        </center>
+    </main>
+  {% else %}
+  <main class="form-signin">
+    <form accept="" method="post">
+      {% csrf_token %}
+      <center>
+        <img class="mb-4" src="" alt="logo" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Please Sign up</h1>
+      </center>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" name="username" placeholder="Username">
+        <label for="floatingInput">Username</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" name="email" placeholder="email@email.com">
+        <label for="floatingInput">Email</label>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword1" name="password1" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword2" name="password2" placeholder="Password confirmation">
+        <label for="floatingPassword">Password confirmation</label>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit" value="Sing in">Sign up</button>
+      <center>
+        <small>Already signed up? <a href="{% url 'login' %}">Sing up here</a></small>
+      </center>
+    </form>
+  </main>
+  {% endif %}
+</div>
+<div class="arrow-separator arrow-greylight"></div>
+
+{% endblock %}

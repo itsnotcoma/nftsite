@@ -1,14 +1,40 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-  <h1>Marketplace</h1>
-  <p>Welcome to the Markeplace of NFTs, a website developed by <em>Gabriel Pogor Dima</em>!</p>
-  <h5>Total {{nft_count}} NFTs upload in the Site</h5>
-  <div>
-    {% for collections in collections%}
-    <div>
-      <h5>{{collections.id}} -- <a href="{{collections.get_url}}">{{collections.collection_name}}</a></h5>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Marketplace</h1>
+        <p>Welcome to the Markeplace of NFTs, a website developed by <em>Gabriel Pogor Dima</em>!</p>
+        <div>
+          {% for collections in collections%}
+          <div>
+            <h5>{{collections.id}} -- <a href="{{collections.get_url}}">{{collections.collection_name}}</a></h5>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="col-3">
+        <center>
+          <h3>Recent NFT uploaded</h3>
+          <small>Total {{nft_count}} NFTs upload in the Site</small>
+          <hr>
+        </center>
+        {% for nft in nfts %}
+          <div>
+            {% if not nft.nft_name %}
+              <a href="{{nft.get_url}}">#{{nft.nft_id}}</a><br>
+            {% else %}
+              <a href="{{nft.get_url}}">{{nft.nft_name}} #{{nft.nft_id}}</a><br>
+            {% endif %}
+            Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
+            <br>
+            <small>{{nft.created | timesince}} ago.</small>
+            <hr>
+          </div>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
   </div>
 {% endblock %}
