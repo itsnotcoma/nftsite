@@ -8,14 +8,19 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mr-auto ml-auto">
           <!--<li><a href="{% url 'index' %}" class="nav-link px-2 text-secondary">NFT Site</a></li>-->
-          <li><a href="#" class="nav-link px-2 text-white">Marketplace</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">NFTs</a></li>
+          <li><a href="#" class="nav-link px-2 text-white h5">Collections</a></li>
+          <li><a href="#" class="nav-link px-2 text-white h5">NFTs</a></li>
         </ul>
         
         <div class="justify-content-md-center mr-5">
           <form class="form-inline justify-content-between my-2 my-lg-0" action="{% url 'search' %}" method="get">
             {% csrf_token %}
-            <!--<i class="fas fa-search" aria-hidden="true"></i>--><input class="form-control form-control-sm ml-3" type="text" name="q" placeholder="Search" aria-label="Search">
+            <div class="input-group">
+              <input class="form-control form-control-sm ml-3" type="text" name="q" placeholder="Search" aria-label="Search">
+              <div class="input-group-text" id="">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </div>
+            </div>
           </form>
         </div>
 

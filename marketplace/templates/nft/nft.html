@@ -1,29 +1,24 @@
 {% extends "base_site.html" %}
 {% block content %}
-    {% if not nft.nft_name %}
-        <h1> #{{nft.nft_id}} </h1>
-    {% else %}
-        <h1>{{nft.nft_name}} #{{nft.nft_id}} </h1>
-    {% endif %}
-
-    <ul>
-        
-        {% if nft.nft_image %}
-        <li><img src="{{nft.nft_image.url}}" alt="nft_image"></li>
-        {% endif %}
-        <li> Contract Address: {{nft.nft_contract_addr}}</li>
-        <li><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</li>
-        <li> Token Standard: {{nft.nft_standard}} ({{nft.nft_blockchain}})</li>
-        <li>Collection: {{nft.collection_name}}</li>
-        {% for nft in nft.creators.all %}
-        <ul>
-            <li>Creator: {{nft.creator_nickname}}</li>
+<div class="container" style="width: 25rem; margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="card">
+        <img src="{{nft.nft_image.url}}" alt="{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}" class="card-img-top">
+        <div class="card-body text-center">
+            <h5 class="card-tittle">{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}</h5>
+            <p class="card-text">{{nft.nft_contract_addr}}</p>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item"><a href="{% url 'collection' nft.collection_name %}">{{nft.collection_name}}</a></li>
+            <li class="list-group-item"><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</li>
+            <li class="list-group-item">Token Standard: {{nft.nft_standard}} ({{nft.nft_blockchain}})</li>
+            <li class="list-group-item">Created by {{nft.creator}}</li>
         </ul>
-        {% endfor %}
-
-        {% if request.user.is_authenticated %}
+    </div>  
+    {% if request.user.is_authenticated %}
+        <div class="text-center mt-3">
             <a class="btn btn-dark" href="{% url 'update-nft' nft.id %}">Edit</a>
-            <a class="btn btn-dark" href="{% url 'delete-nft' nft.id %}">Delete</a>
-        {% endif %}
-    </ul>
+            <a class="btn btn-danger" href="{% url 'delete-nft' nft.id %}">Delete</a>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

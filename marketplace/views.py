@@ -1,6 +1,7 @@
 from django.core.checks import messages
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models.aggregates import Sum
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
@@ -16,18 +17,22 @@ from .models import Collection, NFT, Creator, Profile
     # index
 def index(request):
     collections = Collection.objects.all()
+    latest_collections = Collection.objects.order_by('-created')[:3]
     
     nfts = NFT.objects.all()
     nft_count = nfts.count()
     
-    latest_nfts = NFT.objects.order_by('-created')
+    latest_nfts = NFT.objects.order_by('-created')[:5]
+    top_nfts = NFT.objects.order_by('-nft_price_crypto')[:5]
     
     profiles = Profile.objects.all()
     
     context = {'collections': collections,
+               'latest_collections': latest_collections,
                'nfts': nfts,
                'nft_count': nft_count,
                'latest_nfts': latest_nfts,
+               'top_nfts': top_nfts,
                'profiles': profiles}
     return render(request, 'index.html', context)
  
@@ -35,6 +40,7 @@ def index(request):
 def collection(request, collection_pk):
     collection = Collection.objects.get(collection_name=collection_pk)
     nfts = collection.nfts.all()
+    
     context = {'collection': collection, 'nft': nfts}
     return render(request, 'collection/collection.html', context)
     
@@ -42,6 +48,7 @@ def collection(request, collection_pk):
 def nft(request, nft_pk, collection_pk):
     nft = NFT.objects.get(nft_id=nft_pk)
     collection = Collection.objects.get(collection_name = collection_pk)
+    
     context = {'nft': nft, 'collection': collection}
     return render(request, 'nft/nft.html', context)
 

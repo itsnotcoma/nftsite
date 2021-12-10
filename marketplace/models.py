@@ -2,9 +2,11 @@ import pathlib
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.aggregates import Sum
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.urls import reverse
+from django.utils import tree
 
 # Create your models here.
 
@@ -22,8 +24,9 @@ class Collection(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
-    nfts = models.ManyToManyField('NFT', verbose_name='NFT', related_name='nfts')
-    
+    nfts = models.ManyToManyField('NFT', verbose_name='NFT', related_name='nfts_collection')
+    creator_c = models.ForeignKey('Creator', on_delete=models.SET_NULL, null=True, related_name='creator_c')
+
     def get_nfts(self):
         return ", ".join([n.nft_contract_addr for n in self.nfts.all()])
     
@@ -35,8 +38,8 @@ class Collection(models.Model):
     def __str__(self):
         return self.collection_name
     class Meta:
-        verbose_name = 'Colección'
-        verbose_name_plural = 'Colecciones'
+        verbose_name = 'Collection'
+        verbose_name_plural = 'Collections'
         ordering = ['-created','-updated']
 
 #NFT Class
@@ -46,23 +49,20 @@ class NFT(models.Model):
     nft_id = models.CharField("Token Id", max_length=5)
     nft_standard = models.CharField("Token Standard", max_length=10)
     nft_blockchain = models.CharField("Blockchain", max_length=100)
-    nft_price_crypto = models.DecimalField("ETH Price", max_digits=12, decimal_places=4, default=0.0)
+    nft_price_crypto = models.DecimalField("ETH Price", max_digits=10, decimal_places=2, default=0.0)
     
     def nft_upload_img_url(instance, filename):
         fpath = pathlib.Path(filename)
         new_fname = str(uuid.uuid1()) # uuid1 -> uuid + timestamps
         return f"nft/{new_fname}{fpath.suffix}"
     
-    nft_image = models.ImageField("NFT's image", null=True, blank=True, upload_to=nft_upload_img_url, max_length = 256)
+    nft_image = models.ImageField("NFT's image", upload_to=nft_upload_img_url, max_length = 256)
      
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
     collection_name = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True,blank=True)
-    creators = models.ManyToManyField('Creator', related_name='creators')
-    
-    def get_creators(self):
-        return ", ".join([c.creator_nickname for c in self.creators.all()])
+    creator = models.ForeignKey('Creator', on_delete=models.SET_NULL, null=True, related_name='creator')
     
     def get_url(self):
         return reverse("nft", kwargs={"collection_pk": self.collection_name, "nft_pk":self.nft_id})
@@ -85,8 +85,7 @@ class Creator(models.Model):
     def __str__(self):
         return self.creator_nickname
     class Meta:
-        verbose_name = 'Creador'
-        verbose_name_plural = 'Creadores'
+        verbose_name = 'Creator'
 
 #User Profile
 class Profile(models.Model):

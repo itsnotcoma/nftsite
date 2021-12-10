@@ -1,20 +1,53 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-  <div class="container d-md-flex">
+  <div class="container" style="margin-top: 3rem; margin-bottom: 3rem;">
     <div class="row">
       <div class="col">
-        <h1>Marketplace</h1>
-        <p>Welcome to the Markeplace of NFTs, a website developed by <em>Gabriel Pogor Dima</em>!</p>
-        <div>
-          {% for collections in collections%}
+        <div class="container">
+          <h1 class="text-center">Latest collections</h1>
+          <hr>
           <div>
-            <h5>{{collections.id}} -- <a href="{{collections.get_url}}">{{collections.collection_name}}</a></h5>
+            <div class="mt-2">
+              <div class="row text-center">
+                {% for collection in latest_collections %}
+                  <div class="col-md">
+                    <div class="card bg-dark text-light">
+                      <img src="{{collection.collection_image.url}}" alt="{{collection.collection_name}}" class="card-img-top">
+                      <div class="card-body">
+                        <h5 class="card-title">{{collection.collection_name}}</h5>
+                        <small class="card-text">Created by <b>{{collection.creator_c}}</b>.</small>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
           </div>
-          {% endfor %}
         </div>
-        <h1>Top collections</h1>
-        <h1>Top NFTs</h1>
+        
+        <div class="container mt-5">
+          <h1 class="text-center">Top NFTs</h1>
+          <hr>
+          <div>
+            {% for nft in top_nfts %}
+              <div class="mt-2">
+                <div class="row no-gutters">
+                  <div class="col-1 text-center"><b class="h5">#{{ forloop.counter }}</b></div>
+                  <div class="col-2">
+                    <a href="{{nft.get_url}}"><img src="{{nft.nft_image.url}}" alt="{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}" class="card-img-top"></a>
+                  </div>
+                  <div class="col">
+                    <b>{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}</b>
+                    <p><a class="link-dark" href="{% url 'collection' nft.collection_name %}">{{nft.collection_name}}</a></p>
+                    <p><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</p> <br>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            {% endfor %}
+          </div>
+        </div>
       </div>
       
       <div class="col-4 text-center text-sm-start">
@@ -24,34 +57,21 @@
             <small>Total {{nft_count}} NFTs upload in the Site</small>
             <hr>
           </div>
-          <div>
+          <div class="container">
             {% for nft in latest_nfts %}
-            <div class="d-sm-flex aling-items-center justify-content-between">
-                {% if nft.nft_image %}
-                  <a href="{{nft.get_url}}"><img class="img-fluid d-md-block" src="{{nft.nft_image.url}}" alt="nft_image" width="100"></a>
-                  <div>
-                    Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
-                    <br>
-                    #{{nft.nft_id}}<br>
-                    <small>{{nft.created | timesince}} ago.</small>
+            <div class="card align-items-center mt-2">
+              <div class="row no-gutters">
+                  <div class="col">
+                    <a href="{{nft.get_url}}"><img src="{{nft.nft_image.url}}" alt="{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}" class="card-img-top"></a>
                   </div>
-                {% else %}
-                  {% if not nft.nft_name %}
-                    <div style="width: 100px;"><a href="{{nft.get_url}}">#{{nft.nft_id}}</a></div>
-                    <div>
-                      Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
-                      <br>
-                      <small>{{nft.created | timesince}} ago.</small>
-                    </div>
-                  {% else %}
-                    <div style="width: 100px;"><a href="{{nft.get_url}}">{{nft.nft_name}} #{{nft.nft_id}}</a></div>
-                    <div>
-                      Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
-                      <br>
-                      <small>{{nft.created | timesince}} ago.</small>
-                    </div>
-                  {% endif %}
-                {% endif %}
+                  <div class="col text-center">
+                    <ul class="list-group list-group-flush" style="font-size: 12.5px;">
+                      <li class="list-group-item"><a class="link-dark" href="{% url 'collection' nft.collection_name %}">{{nft.collection_name}}</a></li>
+                      <li class="list-group-item"><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</li>
+                      <li class="list-group-item"><small>{{nft.created | timesince}} ago.</small></li>
+                    </ul>
+                  </div>
+              </div>
             </div>
             {% endfor %}
           </div>

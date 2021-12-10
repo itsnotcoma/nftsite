@@ -16,14 +16,14 @@ class NFTInline(admin.TabularInline):
 #SuperAdmin
 @admin.register(NFT)
 class NFTAdmin(admin.ModelAdmin):
-    list_display = ('nft_contract_addr','nft_name', 'nft_id', 'nft_standard', 'nft_blockchain', 'collection_name', 'get_creators')
+    list_display = ('nft_contract_addr','nft_name', 'nft_id', 'nft_standard', 'nft_blockchain', 'collection_name', 'creator')
     #fields = ['nft_id', 'nft_name', 'nft_standard', 'nft_blockchain', 'collection_name', 'get_creators']
     #inlines = (CreatorInline,)
-    list_filter = ['creators', 'nft_standard', 'nft_blockchain']
+    list_filter = ['creator', 'nft_standard', 'nft_blockchain']
     
 @admin.register(Collection)
 class CollectionAmdmin(admin.ModelAdmin):
-    list_display = ('collection_name', 'get_nfts')
+    list_display = ('collection_name', 'get_nfts', 'creator_c')
     #fields = ('collection_name', 'get_nfts')
     inlines = (NFTInline,)
 
