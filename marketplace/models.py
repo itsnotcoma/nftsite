@@ -46,6 +46,7 @@ class NFT(models.Model):
     nft_id = models.CharField("Token Id", max_length=5)
     nft_standard = models.CharField("Token Standard", max_length=10)
     nft_blockchain = models.CharField("Blockchain", max_length=100)
+    nft_price_crypto = models.DecimalField("ETH Price", max_digits=12, decimal_places=4, default=0.0)
     
     def nft_upload_img_url(instance, filename):
         fpath = pathlib.Path(filename)
@@ -65,6 +66,10 @@ class NFT(models.Model):
     
     def get_url(self):
         return reverse("nft", kwargs={"collection_pk": self.collection_name, "nft_pk":self.nft_id})
+    
+    def get_dollars(self):
+        dollar = self.nft_price_crypto * 4100
+        return f'${dollar}'
     
     def __str__(self):
         return self.nft_contract_addr

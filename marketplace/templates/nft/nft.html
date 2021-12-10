@@ -12,6 +12,7 @@
         <li><img src="{{nft.nft_image.url}}" alt="nft_image"></li>
         {% endif %}
         <li> Contract Address: {{nft.nft_contract_addr}}</li>
+        <li><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</li>
         <li> Token Standard: {{nft.nft_standard}} ({{nft.nft_blockchain}})</li>
         <li>Collection: {{nft.collection_name}}</li>
         {% for nft in nft.creators.all %}
@@ -21,8 +22,8 @@
         {% endfor %}
 
         {% if request.user.is_authenticated %}
-            <li><a href="{% url 'update-nft' nft.id %}">Edit</a></li>
-            <li><a href="{% url 'delete-nft' nft.id %}">Delete</a></li>
+            <a class="btn btn-dark" href="{% url 'update-nft' nft.id %}">Edit</a>
+            <a class="btn btn-dark" href="{% url 'delete-nft' nft.id %}">Delete</a>
         {% endif %}
     </ul>
 {% endblock %}

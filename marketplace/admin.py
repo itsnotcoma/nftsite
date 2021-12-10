@@ -11,6 +11,7 @@ admin.site.register(Profile)
 
 class NFTInline(admin.TabularInline):
     model = NFT
+    exclude = ['nft_price_dollar']
 
 #SuperAdmin
 @admin.register(NFT)
