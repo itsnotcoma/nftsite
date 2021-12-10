@@ -1,7 +1,7 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-  <div class="container">
+  <div class="container d-md-flex">
     <div class="row">
       <div class="col">
         <h1>Marketplace</h1>
@@ -14,26 +14,46 @@
           {% endfor %}
         </div>
       </div>
-
-      <div class="col-3">
-        <center>
-          <h3>Recent NFT uploaded</h3>
-          <small>Total {{nft_count}} NFTs upload in the Site</small>
-          <hr>
-        </center>
-        {% for nft in nfts %}
+      
+      <div class="col-4 text-center text-sm-start">
+        <div class="container">
           <div>
-            {% if not nft.nft_name %}
-              <a href="{{nft.get_url}}">#{{nft.nft_id}}</a><br>
-            {% else %}
-              <a href="{{nft.get_url}}">{{nft.nft_name}} #{{nft.nft_id}}</a><br>
-            {% endif %}
-            Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
-            <br>
-            <small>{{nft.created | timesince}} ago.</small>
+            <h3>Recent NFT uploaded</h3>
+            <small>Total {{nft_count}} NFTs upload in the Site</small>
             <hr>
           </div>
-        {% endfor %}
+          <div>
+            {% for nft in latest_nfts %}
+            <div class="d-sm-flex aling-items-center justify-content-between">
+                {% if nft.nft_image %}
+                  <a href="{{nft.get_url}}"><img class="img-fluid d-md-block" src="{{nft.nft_image.url}}" alt="nft_image" width="100"></a>
+                  <div>
+                    Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
+                    <br>
+                    #{{nft.nft_id}}<br>
+                    <small>{{nft.created | timesince}} ago.</small>
+                  </div>
+                {% else %}
+                  {% if not nft.nft_name %}
+                    <div style="width: 100px;"><a href="{{nft.get_url}}">#{{nft.nft_id}}</a></div>
+                    <div>
+                      Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
+                      <br>
+                      <small>{{nft.created | timesince}} ago.</small>
+                    </div>
+                  {% else %}
+                    <div style="width: 100px;"><a href="{{nft.get_url}}">{{nft.nft_name}} #{{nft.nft_id}}</a></div>
+                    <div>
+                      Collection: <a href="{{nft.collection_name.get_url}}">{{nft.collection_name}}</a>
+                      <br>
+                      <small>{{nft.created | timesince}} ago.</small>
+                    </div>
+                  {% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
       </div>
     </div>
   </div>

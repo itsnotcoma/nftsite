@@ -1,0 +1,47 @@
+{% extends 'base_site.html' %}
+{% load static %}
+
+{% block content %} 
+<div class="p-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md">
+                <div class="card bg-dark text-light">
+                    <div class="card-body text-center">
+                        <div class="h1 mb-3">
+                            <img src="{% static 'assets/svg/metamask-fox.svg' %}" alt="" height="92">
+                        </div>
+                        <h3 class="card-title mb-3">Metamask</h3>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light">Connect</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-dark text-light">
+                    <div class="card-body text-center">
+                        <div class="h1 mb-3">
+                            <img src="{% static 'assets/svg/trustwallet.svg' %}" alt="" height="92">
+                        </div>
+                        <h3 class="card-title mb-3">Trustwallet</h3>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light">Connect</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="card bg-dark text-light">
+                    <div class="card-body text-center">
+                        <div class="h1 mb-3">
+                            <img src="{% static 'assets/phantomwallet.png' %}" alt="" height="92">
+                        </div>
+                        <h3 class="card-title mb-3">Phantom Wallet</h3>
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, ullam!</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light">Connect</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

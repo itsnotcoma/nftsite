@@ -9,20 +9,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import NftForm, CollectionForm, CreatorForm, SingupForm
-from .models import Collection, NFT, Creator
+from .forms import NftForm, CollectionForm, CreatorForm, ProfileForm, SingupForm, UserForm
+from .models import Collection, NFT, Creator, Profile
 
 # Create your views here.
     # index
 def index(request):
-
-    nfts = NFT.objects.all()
     collections = Collection.objects.all()
+    
+    nfts = NFT.objects.all()
     nft_count = nfts.count()
+    
+    latest_nfts = NFT.objects.order_by('-created')
+    
+    profiles = Profile.objects.all()
     
     context = {'collections': collections,
                'nfts': nfts,
-               'nft_count': nft_count}
+               'nft_count': nft_count,
+               'latest_nfts': latest_nfts,
+               'profiles': profiles}
     return render(request, 'index.html', context)
  
     # collection
@@ -45,7 +51,7 @@ def addNft(request):
     form = NftForm()
     
     if request.method == 'POST':
-       form = NftForm(request.POST)
+       form = NftForm(request.POST, request.FILES)
        if form.is_valid():
            form.save()
            return redirect('index')
@@ -58,7 +64,7 @@ def addCollection(request):
     form = CollectionForm()
     
     if request.method == 'POST':
-       form = CollectionForm(request.POST)
+       form = CollectionForm(request.POST, request.FILES)
        if form.is_valid():
            form.save()
            return redirect('index')
@@ -71,7 +77,7 @@ def addCreator(request):
     form = CreatorForm()
     
     if request.method == 'POST':
-       form = CreatorForm(request.POST)
+       form = CreatorForm(request.POST, request.FILES)
        if form.is_valid():
            form.save()
            return redirect('index')
@@ -89,7 +95,7 @@ def updateNft(request, pk):
     #    return HttpResponse('You do not have permission')
     
     if request.method == 'POST':
-        form = NftForm(request.POST, instance=nft)
+        form = NftForm(request.POST, request.FILES, instance=nft)
         if form.is_valid():
            form.save()
            return redirect('index')
@@ -106,7 +112,7 @@ def updateCollection(request, pk):
     #    return HttpResponse('You do not have permission')
     
     if request.method == 'POST':
-        form = CollectionForm(request.POST, instance=collection)
+        form = CollectionForm(request.POST, request.FILES, instance=collection)
         if form.is_valid():
            form.save()
            return redirect('index')
@@ -123,7 +129,7 @@ def updateCreator(request, pk):
     #    return HttpResponse('You do not have permission')
     
     if request.method == 'POST':
-        form = CreatorForm(request.POST, instance=creator)
+        form = CreatorForm(request.POST, request.FILES, instance=creator)
         if form.is_valid():
            form.save()
            return redirect('index')
@@ -131,6 +137,23 @@ def updateCreator(request, pk):
     context = {'form': form}
     return render(request, 'forms/update_form.html', context)
 
+@login_required(login_url='login')
+def updateUser(request):
+    
+    if request.method == 'POST':
+        u_form = UserForm(request.POST, instance=request.user)
+        p_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+           u_form.save()
+           p_form.save()
+           return redirect('index')
+    else:
+        u_form = UserForm(instance=request.user)
+        p_form = ProfileForm(instance=request.user.profile)
+    context = {'u_form': u_form,
+               'p_form': p_form}
+    return render(request, 'update-user.html', context)
+    
 #Delete Methods
 @login_required(login_url='login')
 def deleteNft(request, pk):
@@ -167,6 +190,8 @@ def deleteCreator(request, pk):
        creator.delete()
        return redirect('index')
     return render(request, 'forms/delete.html', {'obj':creator})
+
+
 
 
 # Search
@@ -240,7 +265,11 @@ def singupPage(request):
     
     context = {'form':form}
     return render(request, 'login_singup.html', context)
-    
+
+# Wallet Page
+def walletPage(request):
+    return render(request, 'wallet.html')
+
 #Coming Soon View
 def comingSoon(request):
     return render(request, 'comingsoon.html')

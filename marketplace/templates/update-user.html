@@ -1,0 +1,40 @@
+{% extends "base_site.html" %}
+
+{% block content %}
+<main class="update-account layout">
+  <div class="container">
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <h3>Edit your profile</h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <form class="form" action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% for field in u_form%}
+          <div class="form__group">
+            <label for="">{{field.label}}</label>
+            {{field}}
+          </div>
+          {% endfor %}
+          
+          {% for field in p_form %}
+          <p>url: {{user_pic.url}}</p>
+          <div class="form__group">
+            <label for="">{{field.label}}</label>
+            {{field}}
+          </div>
+          {% endfor %}
+          <div class="form__action">
+            <a class="btn btn-warning" href="{% url 'index' %}">Cancel</a>
+            <button class="btn btn-dark" type="submit">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+{% endblock content %}

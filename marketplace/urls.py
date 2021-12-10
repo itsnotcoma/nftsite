@@ -7,6 +7,8 @@ urlpatterns = [
    
    path('search/', views.search, name="search"),
    
+   path('connect-wallet/', views.walletPage, name="wallet"),
+   
    path('login/', views.loginPage, name="login"),
    path('logout/', views.logoutUser, name="logout"),
    path('singup/', views.singupPage, name="singup"),
@@ -22,6 +24,7 @@ urlpatterns = [
    path('update/nft/<str:pk>/', views.updateNft, name="update-nft"),
    path('update/collection/<str:pk>/', views.updateCollection, name="update-collection"),
    path('update/creator/<str:pk>/', views.updateCreator, name="update-creator"),
+   path('update/user/', views.updateUser, name="update-user"),
    
    path('delete/nft/<str:pk>/', views.deleteNft, name="delete-nft"),
    path('delete/collection/<str:pk>/', views.deleteCollection, name="delete-collection"),
