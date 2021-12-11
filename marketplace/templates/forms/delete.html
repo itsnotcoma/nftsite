@@ -19,19 +19,4 @@
       </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-<form action="" method="post">
-    {% csrf_token %}
-    <p>¿Estas seguro que quieres eliminar "{{obj}}"?</p>
-    
-    <a href="{{request.META.HTTP_REFERRER}}">Atras</a>
-    <input type="submit" value="Delete">
-</form>
 {% endblock %}
