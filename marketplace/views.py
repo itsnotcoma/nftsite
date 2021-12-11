@@ -43,7 +43,12 @@ def collection(request, collection_pk):
     
     context = {'collection': collection, 'nft': nfts}
     return render(request, 'collection/collection.html', context)
-    
+
+def all_collections(request):
+    all_collections = Collection.objects.all()
+    context = {'all_collections': all_collections}
+    return render(request, 'collection/all_collections.html', context)
+
     # nft
 def nft(request, nft_pk, collection_pk):
     nft = NFT.objects.get(nft_id=nft_pk)
@@ -51,6 +56,17 @@ def nft(request, nft_pk, collection_pk):
     
     context = {'nft': nft, 'collection': collection}
     return render(request, 'nft/nft.html', context)
+
+def all_nfts(request):
+    all_nfts = NFT.objects.all()
+    context = {'all_nfts': all_nfts}
+    return render(request, 'nft/all_nfts.html', context)
+
+    # creator
+def all_creators(request):
+    creators = Creator.objects.all()
+    context = {'creators': creators}
+    return render(request, 'creator/all_creators.html', context)
 
 #Add Methods
 @login_required(login_url='login')

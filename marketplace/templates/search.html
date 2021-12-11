@@ -1,20 +1,24 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-    <center>
+    <div class="container text-center" style="margin-top: 3rem; margin-bottom: 3rem;">
         <h1>Search Page</h1>
         {% if q %}
             {% if collections_filter or nfts_filter or creator_filter %}
-                <p>Keyword: "{{q}}"</p><br>
+                <p>Keyword: "{{q}}"</p>
+                <hr>
                 {% if collections_filter %}
+                <div class="mb-5">
                     <h3>Collections</h3>
                     {% for collection in collections_filter %}
                         <div>
                         <a href="{{collection.get_url}}">{{collection.collection_name}}</a>
                         </div>
                     {% endfor %}
+                </div>
                 {% endif %}
                 {% if nfts_filter %}
+                <div class="mb-5">
                     <h3>NFTs</h3>
                     {% for nft in nfts_filter %}
                         {% if not nft.nft_name %}
@@ -25,19 +29,23 @@
                         Token Standard: {{nft.nft_standard}} ({{nft.nft_blockchain}})<br>
                         Collection: {{nft.collection_name}} <br>
                     {% endfor %}
+                </div>
                 {% endif %}
                 {% if creator_filter %}
+                <div class="mb-5">
                     <h3>Creators</h3>
                     {% for creator in creator_filter %}
                         <div>
                             {{creator.creator_nickname}}
                         </div>
                     {% endfor %}
+                </div>
                 {% endif %} 
             {% else %}
                 <p>Keyword: "{{q}}" returned no results.</p>
+                <hr>
             {% endif %} 
         {% endif %}
-    </center>
+    </div>
     
 {% endblock %}

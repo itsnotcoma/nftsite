@@ -1,40 +1,47 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-<main class="update-account layout">
-  <div class="container">
-    <div class="layout__box">
-      <div class="layout__boxHeader">
-        <div class="layout__boxTitle">
-          <h3>Edit your profile</h3>
-        </div>
-      </div>
-      <div class="layout__body">
-        <form class="form" action="" method="POST" enctype="multipart/form-data">
+<div class="container mt-20" style="margin-top: 3rem; margin-bottom: 3rem;">
+  <div class="card bg-dark text-light align-items-center-mt-5">
+    <div class="card-body">
+      <h1 class="card-title text-center">Settings</h1>
+      <div class="mb-5">
+        <form class="form justify-content-between mg-auto" action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-
-          {% for field in u_form%}
-          <div class="form__group">
-            <label for="">{{field.label}}</label>
-            {{field}}
-          </div>
-          {% endfor %}
-          
-          {% for field in p_form %}
-          <p>url: {{user_pic.url}}</p>
-          <div class="form__group">
-            <label for="">{{field.label}}</label>
-            {{field}}
-          </div>
-          {% endfor %}
-          <div class="form__action">
+          <ul class="list-group">
+            {% for field in u_form %}
+              <li class="list-group-item">
+                <label for="">{{field.label}}</label>{{field}}
+              </li>
+            {% endfor %}
+            {% for field in p_form %}
+              <li class="list-group-item">
+                <label for="">{{field.label}}</label>{{field}}
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="text-center mt-3">
             <a class="btn btn-warning" href="{% url 'index' %}">Cancel</a>
-            <button class="btn btn-dark" type="submit">Update</button>
+            <button class="btn btn-outline-light" type="submit">Update</button>
           </div>
         </form>
       </div>
+      <h1 class="card-title text-center">Additional Settings</h1>
+      <div>
+        <ul class="list-group">
+          <li class="list-group-item">Add new NFT<b class="text-danger">*</b>:<a href="{% url 'add-nft' %}" class="btn btn-dark float-end">Add</a></li>
+          <li class="list-group-item">Add new Collection:<a href="{% url 'add-collection' %}" class="btn btn-dark float-end">Add</a></li>
+          <li class="list-group-item">Add new Creator:<a href="{% url 'add-creator' %}" class="btn btn-dark float-end">Add</a></li>
+        </ul>
+      </div>
+      <p class="card-text">
+        <small class="text-danger">
+          <b>* You must add first Creator then you can add a new NFT</b>
+          <br>
+          <b>* You must leave blank frist "Collection Name" and then you can add a new Collection with all the NFTs</b>
+        </small>
+      </p>
     </div>
   </div>
-  </div>
-</main>
+</div>
 {% endblock content %}

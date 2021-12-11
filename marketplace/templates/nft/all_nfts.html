@@ -1,0 +1,30 @@
+{% extends 'base_site.html' %}
+
+{% block content %}
+<div class="cointainer" style="margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="container">
+        <div class=" ">
+            {% for nft in all_nfts %}
+            {% if forloop.first %}<div class="row">{% endif %}
+            <div class="col">
+                <div class=" mb-5">
+                    <a href="{{nft.get_url}}"><img src="{{nft.nft_image.url}}" alt="{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}" class="card-img-top"></a>
+                    <div class="card-body text-center bg-dark text-light">
+                        <h5 class="card-tittle">{% if nft.nft_name %}{{nft.nft_name}} #{{nft.nft_id}}{% else %}{{nft.collection_name}} #{{nft.nft_id}}{% endif %}</h5>
+                        <p class="card-text">{{nft.nft_contract_addr}}</p>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fab fa-ethereum"></i> {{nft.nft_price_crypto}} ({{nft.get_dollars}})</li>
+                    </ul>
+                    <div class="card-footer text-center">
+                        <small>Created by <b>{{nft.creator}}</b></small>
+                    </div>
+                </div>  
+            </div>
+            {% if forloop.counter|divisibleby:5 %}</div><div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

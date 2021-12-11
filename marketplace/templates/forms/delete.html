@@ -1,6 +1,32 @@
 {% extends "base_site.html" %}
 
 {% block content %}
+
+<div class="container mt-20" style="margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="card bg-dark text-light align-items-center-mt-5">
+      <div class="card-body">
+        <h1 class="card-title text-center">Delete</h1>
+        <div class="">
+          <form class="form justify-content-between mg-auto" action="" method="POST">
+            {% csrf_token %}
+            <p class="card-text">Are you sure you want to delete "<b class="text-danger">{{obj}}</b>".</p>
+            <div class="text-center mt-3">
+              <a class="btn btn-warning" href="{% url 'index' %}">Cancel</a>
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 <form action="" method="post">
     {% csrf_token %}
     <p>¿Estas seguro que quieres eliminar "{{obj}}"?</p>

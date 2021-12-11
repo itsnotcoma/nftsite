@@ -9,25 +9,30 @@
           <hr>
           <div>
             <div class="mt-2">
-              <div class="row text-center">
+              <div class="row row-cols-md-1 row-cols-3 g-4 text-center">
+                <div class="card-group">
                 {% for collection in latest_collections %}
                   <div class="col-md">
-                    <div class="card bg-dark text-light">
-                      <img src="{{collection.collection_image.url}}" alt="{{collection.collection_name}}" class="card-img-top">
+                    <div class="card bg-dark text-light g-2">
+                      <a href="{{collection.get_url}}"><img src="{{collection.collection_image.url}}" alt="{{collection.collection_name}}" class="card-img-top"></a>
                       <div class="card-body">
                         <h5 class="card-title">{{collection.collection_name}}</h5>
-                        <small class="card-text">Created by <b>{{collection.creator_c}}</b>.</small>
+                        <p class="card-text">Created by <b>{{collection.creator_c}}</b>.</p>
+                      </div>
+                      <div class="card-footer bg-light text-dark">
+                        <small>{{collection.created | timesince}} ago.</small>
                       </div>
                     </div>
                   </div>
                 {% endfor %}
+                </div>
               </div>
             </div>
           </div>
         </div>
         
         <div class="container mt-5">
-          <h1 class="text-center">Top NFTs</h1>
+          <h1 class="text-center">Top 5 NFTs</h1>
           <hr>
           <div>
             {% for nft in top_nfts %}

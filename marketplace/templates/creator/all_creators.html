@@ -1,0 +1,17 @@
+{% extends "base_site.html" %}
+{% block content %}
+<div class="container" style="margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="container">
+        <div class="list-group">
+            {% for creator in creators %}
+            <li class="list-group-item">
+                {{creator.creator_nickname}}
+                <a href="{% url 'delete-creator' creator.id %}" class="btn btn-danger float-end">Delete</a>
+                <a href="{% url 'update-creator' creator.id %}" class="btn btn-dark btn-outline-light float-end">Uptade</a>
+            </li>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

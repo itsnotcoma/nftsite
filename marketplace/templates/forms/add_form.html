@@ -1,12 +1,27 @@
 {% extends "base_site.html" %}
 
 {% block content %}
-<div>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <a href="{% url 'index' %}">Cancel</a>
-        <input type="submit" value="Add">
-    </form>
+<div class="container mt-20" style="margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="card bg-dark text-light align-items-center-mt-5">
+      <div class="card-body">
+        <h1 class="card-title text-center">Add</h1>
+        <div class="">
+          <form class="form justify-content-between mg-auto" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul class="list-group">
+              {% for field in form %}
+                <li class="list-group-item">
+                  <label for="">{{field.label}}</label>{{field}}
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="text-center mt-3">
+              <a class="btn btn-warning" href="{% url 'index' %}">Cancel</a>
+              <button class="btn btn-outline-light" type="submit">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock %}

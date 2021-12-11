@@ -13,6 +13,10 @@ urlpatterns = [
    path('logout/', views.logoutUser, name="logout"),
    path('singup/', views.singupPage, name="singup"),
    
+   path('nft/all/', views.all_nfts, name="all-nfts"),
+   path('collection/all/', views.all_collections, name="all-collections"),
+   path('creators/all/', views.all_creators, name="all-creators"),
+   
    path('collection/<str:collection_pk>/', views.collection, name="collection"),
    path('collection/<str:collection_pk>/nft/<str:nft_pk>/', views.nft, name="nft"),
    

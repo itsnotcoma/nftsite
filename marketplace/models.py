@@ -72,7 +72,7 @@ class NFT(models.Model):
         return f'${dollar}'
     
     def __str__(self):
-        return self.nft_contract_addr
+        return f'{self.collection_name}-{self.nft_contract_addr}#{self.nft_id}'
     
     class Meta:
         verbose_name = 'NFT'
